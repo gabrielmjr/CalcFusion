@@ -1,16 +1,21 @@
 package com.mjrvision.app.calcvision
 
-import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.mjrvision.app.calcfusion.core.activity.BaseActivity
+import com.mjrvision.app.calcvision.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class MainActivity : BaseActivity() {
+    private lateinit var binding: ActivityMainBinding
+
+    override fun initializeActivity() {
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    override fun initializeAttributes() {
+    }
+
+    override fun setListeners() {
     }
 }
