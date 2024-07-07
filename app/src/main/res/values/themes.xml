@@ -1,9 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
     <style name="Base.Theme.CalcVision" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Headline3</item>
+    </style>
+    
+    <style name="CalcVision.Button.Calculator.Style" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline3</item>
+        <item name="backgroundTint">@color/background_calculator_buttons</item>
     </style>
 
-    <style name="Theme.CalcVision" parent="Base.Theme.CalcVision" />
+    <style name="CalcVision.Button.Calculator.Operators.Style" parent="CalcVision.Button.Calculator.Style">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="backgroundTint">@color/background_calculator_operators_buttons</item>
+    </style>
 </resources>

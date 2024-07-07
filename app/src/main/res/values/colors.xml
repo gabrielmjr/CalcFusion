@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_calculator_buttons">#C78625</color>
+    <color name="background_calculator_operators_buttons">#EFA73D</color>
 </resources>
