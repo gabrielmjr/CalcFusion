@@ -1,6 +1,10 @@
 <resources>
-    <style name="Base.Theme.CalcVision" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="CalcVision.Base.Theme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Headline3</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="windowActionBar">false</item>
     </style>
     
     <style name="CalcVision.Button.Calculator.Style" parent="">
