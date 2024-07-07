@@ -1,9 +1,8 @@
-package com.mjrvision.app.calcvision
+package com.mjrfusion.app.calcfusion
 
-import androidx.activity.enableEdgeToEdge
-import com.mjrvision.app.calcfusion.core.activity.BaseActivity
-import com.mjrvision.app.calcvision.databinding.ActivityMainBinding
-import com.mjrvision.app.calcvision.fragment.CalculatorFragment
+import com.mjrfusion.app.calcfusion.core.activity.BaseActivity
+import com.mjrfusion.app.calcfusion.databinding.ActivityMainBinding
+import com.mjrfusion.app.calcfusion.fragment.CalculatorFragment
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding

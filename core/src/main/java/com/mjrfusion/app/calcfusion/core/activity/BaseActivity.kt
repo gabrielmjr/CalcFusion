@@ -1,4 +1,4 @@
-package com.mjrvision.app.calcfusion.core.activity
+package com.mjrfusion.app.calcfusion.core.activity
 
 import android.os.Bundle
 import android.os.Handler

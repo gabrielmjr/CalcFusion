@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CalcVision"
+rootProject.name = "CalcFusion"
 include ':app'
 include ':core'

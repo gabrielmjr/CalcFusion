@@ -1,11 +1,11 @@
-package com.mjrvision.app.calcfusion.core.fragment
+package com.mjrfusion.app.calcfusion.core.fragment
 
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.mjrvision.app.calcfusion.core.activity.BaseActivity
+import com.mjrfusion.app.calcfusion.core.activity.BaseActivity
 
 abstract class BaseFragment(@LayoutRes root: Int): Fragment(root) {
     val mLocalTag = this::class.java.canonicalName

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.mjrvision.app.calcfusion.core'
+    namespace 'com.mjrfusion.app.calcfusion.core'
     compileSdk 34
 
     defaultConfig {

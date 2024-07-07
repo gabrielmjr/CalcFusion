@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.mjrvision.app.calcvision'
+    namespace 'com.mjrfusion.app.calcfusion'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.mjrvision.app.calcvision"
+        applicationId "com.mjrfusion.app.calcfusion"
         minSdk 21
         targetSdk 34
         versionCode 1000000

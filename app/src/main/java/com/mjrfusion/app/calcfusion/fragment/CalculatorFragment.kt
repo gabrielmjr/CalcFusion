@@ -1,9 +1,9 @@
-package com.mjrvision.app.calcvision.fragment
+package com.mjrfusion.app.calcfusion.fragment
 
 import android.view.View
-import com.mjrvision.app.calcfusion.core.fragment.BaseFragment
-import com.mjrvision.app.calcvision.R
-import com.mjrvision.app.calcvision.databinding.FragmentCalculatorBinding
+import com.mjrfusion.app.calcfusion.core.fragment.BaseFragment
+import com.mjrfusion.app.calcfusion.R
+import com.mjrfusion.app.calcfusion.databinding.FragmentCalculatorBinding
 
 class CalculatorFragment: BaseFragment(R.layout.fragment_calculator) {
     private lateinit var binding: FragmentCalculatorBinding
