@@ -15,6 +15,7 @@
     <style name="CalcVision.TextView.Expression" parent="">
         <item name="android:textAlignment">textEnd</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="android:layout_gravity">end</item>
     </style>
 
     <style name="CalcVision.Button.Calculator.Operators" parent="CalcVision.Button.Calculator">
