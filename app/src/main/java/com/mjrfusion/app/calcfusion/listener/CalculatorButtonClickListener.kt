@@ -3,7 +3,7 @@ package com.mjrfusion.app.calcfusion.listener
 import android.view.View
 import com.mjrfusion.app.calcfusion.R
 
-interface CalculatorButtonClickListener : View.OnClickListener {
+interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClickListener {
     var expression: String
 
     override fun onClick(view: View) {
@@ -27,6 +27,15 @@ interface CalculatorButtonClickListener : View.OnClickListener {
             R.id.addition -> expression += "+"
         }
         onExpressionChanged(expression)
+    }
+
+    override fun onLongClick(view: View): Boolean {
+        if (view.id == R.id.del) {
+            expression = ""
+            onExpressionChanged(expression)
+            return true
+        }
+        return false
     }
 
      fun onExpressionChanged(newExpression: String)

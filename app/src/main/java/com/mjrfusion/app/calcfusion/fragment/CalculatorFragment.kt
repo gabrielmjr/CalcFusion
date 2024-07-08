@@ -16,6 +16,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
 
     override fun setListeners() {
         setButtonsClickListener()
+        setClearButtonLongClickListener()
     }
 
     private fun setButtonsClickListener() {
@@ -40,6 +41,10 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
                 addition.setOnClickListener(it)
             }
         }
+    }
+
+    private fun setClearButtonLongClickListener() {
+        binding.del.setOnLongClickListener(this)
     }
 
     override fun onExpressionChanged(newExpression: String) {
