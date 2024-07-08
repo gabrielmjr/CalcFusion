@@ -22,7 +22,7 @@ interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClick
             R.id.num_9 -> addNumber("9")
             R.id.comma -> addCommaIfPossible()
             R.id.equals -> TODO()
-            R.id.del -> expression = expression.substring(0, expression.length - 1)
+            R.id.del -> removeLastChar()
             R.id.multiplication -> addSignalIfPossible("×")
             R.id.division -> addSignalIfPossible("÷")
             R.id.subtraction -> addSignalIfPossible("-")
@@ -34,6 +34,8 @@ interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClick
     override fun onLongClick(view: View): Boolean {
         if (view.id == R.id.del) {
             expression = ""
+            canAddComma = true
+            canAddSignals = true
             onExpressionChanged(expression)
             return true
         }
@@ -45,6 +47,11 @@ interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClick
             expression += ","
             canAddComma = false
         }
+    }
+
+    fun removeLastChar() {
+        if (expression.isNotEmpty())
+            expression = expression.substring(0, expression.length - 1)
     }
 
     fun addNumber(stringNumber: String) {
