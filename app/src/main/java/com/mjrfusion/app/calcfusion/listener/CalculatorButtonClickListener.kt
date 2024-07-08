@@ -2,7 +2,6 @@ package com.mjrfusion.app.calcfusion.listener
 
 import android.view.View
 import com.mjrfusion.app.calcfusion.R
-import com.mjrfusion.app.calcfusion.databinding.FragmentCalculatorBinding
 
 interface CalculatorButtonClickListener : View.OnClickListener {
     var expression: String
@@ -21,7 +20,7 @@ interface CalculatorButtonClickListener : View.OnClickListener {
             R.id.num_9 -> expression += "9"
             R.id.comma -> expression += ","
             R.id.equals -> TODO()
-            R.id.del -> expression.substring(0, expression.length-2)
+            R.id.del -> expression = expression.substring(0, expression.length - 1)
             R.id.multiplication -> expression += "×"
             R.id.division -> expression += "÷"
             R.id.subtraction -> expression += "-"
