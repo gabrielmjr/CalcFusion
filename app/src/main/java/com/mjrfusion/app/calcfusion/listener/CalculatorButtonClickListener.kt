@@ -42,7 +42,14 @@ interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClick
 
     fun addCommaIfPossible() {
         if (canAddComma) {
-            expression += ","
+            expression +=
+                if (expression.isEmpty())
+                    "0,"
+                else
+                    when (expression[expression.length - 1]) {
+                        '×', '÷', '+', '-' -> "0,"
+                        else -> ","
+                    }
             canAddComma = false
         }
     }
@@ -84,9 +91,9 @@ interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClick
         return if (expression.isEmpty()) false
         else
             when (expression[expression.length - 1]) {
-            '÷', '×' -> true
-            else -> false
-        }
+                '÷', '×' -> true
+                else -> false
+            }
     }
 
     fun onExpressionChanged(newExpression: String)
