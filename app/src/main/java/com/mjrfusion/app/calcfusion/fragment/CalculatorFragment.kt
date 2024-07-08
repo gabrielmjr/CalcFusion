@@ -10,7 +10,6 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
     private lateinit var binding: FragmentCalculatorBinding
     override var expression: String = ""
     override var canAddComma = true
-    override var canAddSignals = true
 
     override fun initializeAttributes(view: View) {
         binding = FragmentCalculatorBinding.bind(view)
