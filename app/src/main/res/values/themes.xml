@@ -7,13 +7,18 @@
         <item name="windowActionBar">false</item>
     </style>
     
-    <style name="CalcVision.Button.Calculator.Style" parent="">
+    <style name="CalcVision.Button.Calculator" parent="">
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline3</item>
         <item name="backgroundTint">@color/background_calculator_buttons</item>
     </style>
 
-    <style name="CalcVision.Button.Calculator.Operators.Style" parent="CalcVision.Button.Calculator.Style">
+    <style name="CalcVision.TextView.Expression" parent="">
+        <item name="android:textAlignment">textEnd</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
+    </style>
+
+    <style name="CalcVision.Button.Calculator.Operators" parent="CalcVision.Button.Calculator">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
         <item name="backgroundTint">@color/background_calculator_operators_buttons</item>
     </style>
 </resources>
