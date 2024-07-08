@@ -8,7 +8,7 @@
     </style>
     
     <style name="CalcVision.Button.Calculator" parent="">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline3</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5</item>
         <item name="backgroundTint">@color/background_calculator_buttons</item>
     </style>
 
