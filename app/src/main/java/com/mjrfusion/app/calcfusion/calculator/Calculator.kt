@@ -1,34 +1,34 @@
 package com.mjrfusion.app.calcfusion.calculator
 
-import android.util.Log
 import com.ezylang.evalex.Expression
 
 interface Calculator {
     var expression: String
-    var canAddComma: Boolean
+    var canAddDot: Boolean
 
     fun addNumber(charNumber: Char) {
         expression += charNumber
     }
 
     fun evaluate() {
-        val temp = expression.replace('×', '*').replace('÷', '/')
+        val temp = expression.replace('×', '*')
+            .replace('÷', '/')
         onExpressionEvaluated(Expression(temp).evaluate().value.toString())
     }
 
     fun onExpressionEvaluated(result: String)
 
-    fun addCommaIfPossible() {
-        if (canAddComma) {
+    fun addDotIfPossible() {
+        if (canAddDot) {
             expression +=
                 if (expression.isEmpty())
-                    "0,"
+                    "0."
                 else
                     when (expression[expression.length - 1]) {
                         '×', '÷', '+', '-' -> "0,"
-                        else -> ","
+                        else -> "."
                     }
-            canAddComma = false
+            canAddDot = false
         }
     }
 
@@ -43,13 +43,13 @@ interface Calculator {
         when (signal) {
             '+', '-' -> {
                 expression += signal
-                canAddComma = true
+                canAddDot = true
                 return
             }
         }
         if (canSignalBeAdded(signal) && !isLastCharASignal()) {
             expression += signal
-            canAddComma = true
+            canAddDot = true
         }
     }
 
@@ -74,7 +74,7 @@ interface Calculator {
 
     fun cleanAll() {
         expression = ""
-        canAddComma = true
+        canAddDot = true
         onExpressionChanged(expression)
     }
 }

@@ -17,6 +17,6 @@
     <string name="subtraction">-</string>
     <string name="addition">+</string>
 
-    <string name="comma">,</string>
+    <string name="dot">.</string>
     <string name="equals">=</string>
 </resources>

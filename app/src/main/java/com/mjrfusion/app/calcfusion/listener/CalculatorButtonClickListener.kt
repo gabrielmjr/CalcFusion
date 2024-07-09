@@ -19,7 +19,7 @@ interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClick
             R.id.num_7 -> addNumber('7')
             R.id.num_8 -> addNumber('8')
             R.id.num_9 -> addNumber('9')
-            R.id.comma -> addCommaIfPossible()
+            R.id.dot -> addDotIfPossible()
             R.id.equals -> evaluate()
             R.id.del -> removeLastChar()
             R.id.multiplication -> addSignalIfPossible('×')
