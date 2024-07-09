@@ -15,7 +15,4 @@ class MainActivity : BaseActivity() {
     override fun initializeAttributes() {
         replaceFragmentBy(R.id.fragment_container, CalculatorFragment::class.java)
     }
-
-    override fun setListeners() {
-    }
 }

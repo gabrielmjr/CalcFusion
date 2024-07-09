@@ -33,7 +33,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
                 num7.setOnClickListener(it)
                 num8.setOnClickListener(it)
                 num9.setOnClickListener(it)
-                comma.setOnClickListener(it)
+                dot.setOnClickListener(it)
                 equals.setOnClickListener(it)
                 del.setOnClickListener(it)
                 multiplication.setOnClickListener(it)
