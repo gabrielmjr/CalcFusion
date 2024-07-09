@@ -51,4 +51,8 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
     override fun onExpressionChanged(newExpression: String) {
         binding.expression.text = newExpression
     }
+
+    override fun onExpressionEvaluated(result: String) {
+        binding.result.text = result
+    }
 }
