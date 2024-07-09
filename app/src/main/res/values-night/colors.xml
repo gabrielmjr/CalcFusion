@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FF000000</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="black">#FFFFFF</color>
+    <color name="background_calculator_buttons">#000000</color>
+    <color name="background_calculator_operators_buttons">#373737</color>
+    <color name="navigationBarColor">@color/background_calculator_buttons</color>
+    <color name="buttonTextColor">#FFFFFFFF</color>
+    <color name="expressionTextColor">#FFFFFFFF</color>
+</resources>
