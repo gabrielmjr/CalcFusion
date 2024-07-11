@@ -20,7 +20,7 @@ CalcFusion is a simple Android calculator that can calculate simple and complex 
 
 ## Instalation
 This calculator is not yet in Google Play Store but it will be there later on.
-1. Download the apk file from releases (I recommend you the latest version).
+1. Download the apk file from [releases](https://github.com/gabrielmjr/CalcFusion/releases) (I recommend you the latest version).
 2. Install it normally as apk
 3. Congratulationm you've installed CalcFusin in your device.
    
