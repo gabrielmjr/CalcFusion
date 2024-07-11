@@ -1,6 +1,13 @@
 # CalcFusion
 ***A simple calculator on your hand.***
 <br>
+
+**Build state:** ![](https://github.com/gabrielmjr/CalcFusion/actions/workflows/android.yml/badge.svg)
+<br>
+**Android Lint:** ![](https://github.com/gabrielmjr/CalcFusion/actions/workflows/android-lint.yml/badge.svg)
+
+<br>
+
 ## Overview
 CalcFusion is a simple Android calculator that can calculate simple and complex expressions.
 <br>
