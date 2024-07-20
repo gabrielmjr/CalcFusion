@@ -23,6 +23,11 @@
         <item name="android:textColor">@color/expressionTextColor</item>
     </style>
 
+    <style name="CalcVision.TextView.Result" parent="CalcVision.TextView.Expression">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
+        </item>
+    </style>
+
     <style name="CalcVision.Button.Calculator.Operators" parent="CalcVision.Button.Calculator">
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
         </item>

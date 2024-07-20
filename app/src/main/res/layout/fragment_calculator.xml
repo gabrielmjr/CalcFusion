@@ -47,7 +47,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/result"
-                style="@style/CalcVision.TextView.Expression"
+                style="@style/CalcVision.TextView.Result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1" />

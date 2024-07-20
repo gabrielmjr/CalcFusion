@@ -4,8 +4,7 @@ import android.view.View
 import com.mjrfusion.app.calcfusion.R
 import com.mjrfusion.app.calcfusion.calculator.Calculator
 
-interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClickListener,
-    Calculator {
+interface CalculatorButtonClickListener : View.OnClickListener, View.OnLongClickListener, Calculator {
 
     override fun onClick(view: View) {
         when (view.id) {
