@@ -43,6 +43,7 @@ class Calculator {
             '+', '-' -> {
                 expression += signal
                 canAddDot = true
+                calculatorViewModel.expressionViewModel.postValue(expression)
                 return
             }
         }
