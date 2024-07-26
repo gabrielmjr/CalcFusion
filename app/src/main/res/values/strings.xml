@@ -19,4 +19,16 @@
 
     <string name="dot">.</string>
     <string name="equals">=</string>
+    <string name="inverse">INV</string>
+    <string name="radians">RAD</string>
+    <string name="percentage">%</string>
+    <string name="sin">sin</string>
+    <string name="cos">cos</string>
+    <string name="open_bracket">(</string>
+    <string name="close_bracket">)</string>
+    <string name="tangent">tan</string>
+    <string name="pi">PI</string>
+    <string name="euler">e</string>
+    <string name="expoent">^</string>
+    <string name="square_root">sqrt</string>
 </resources>

@@ -6,7 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.mjrfusion.app.calcfusion.fragment.FirstOperationFragment;
+import com.mjrfusion.app.calcfusion.fragment.FirstOperationsFragment;
+import com.mjrfusion.app.calcfusion.fragment.SecondOperationsFragment;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,8 @@ public class OperatorsAdapter extends FragmentStateAdapter {
     public OperatorsAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
         fragments = new ArrayList<>();
-        fragments.add(new FirstOperationFragment());
+        fragments.add(new FirstOperationsFragment());
+        fragments.add(new SecondOperationsFragment());
     }
 
     @NonNull
