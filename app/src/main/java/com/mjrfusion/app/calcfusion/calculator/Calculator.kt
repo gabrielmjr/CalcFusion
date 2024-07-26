@@ -1,43 +1,42 @@
 package com.mjrfusion.app.calcfusion.calculator
 
 import com.ezylang.evalex.Expression
+import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
+import kotlin.properties.Delegates
 
-interface Calculator {
-    var expression: String
-    var canAddDot: Boolean
+class Calculator {
+    private var expression = ""
+    private var canAddDot by Delegates.notNull<Boolean>()
+    lateinit var calculatorViewModel: CalculatorViewModel
 
     fun addNumber(charNumber: Char) {
         expression += charNumber
+        calculatorViewModel.expressionViewModel.postValue(expression)
     }
 
     fun evaluate() {
-        val temp = expression.replace('×', '*')
-            .replace('÷', '/')
-        onExpressionEvaluated(Expression(temp).evaluate().value.toString())
+        val temp = expression.replace('×', '*').replace('÷', '/')
+        calculatorViewModel.result.postValue(Expression(temp).evaluate().value.toString())
     }
-
-    fun onExpressionEvaluated(result: String)
 
     fun addDotIfPossible() {
         if (canAddDot) {
-            expression +=
-                if (expression.isEmpty())
-                    "0."
-                else
-                    when (expression[expression.length - 1]) {
-                        '×', '÷', '+', '-' -> "0,"
-                        else -> "."
-                    }
+            expression += if (expression.isEmpty()) "0."
+            else when (expression[expression.length - 1]) {
+                '×', '÷', '+', '-' -> "0."
+                else -> "."
+            }
             canAddDot = false
+            calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }
 
     fun removeLastChar() {
-        if (expression.isNotEmpty())
+        if (expression.isNotEmpty()) {
             expression = expression.substring(0, expression.length - 1)
+            calculatorViewModel.expressionViewModel.postValue(expression)
+        }
     }
-
-    fun onExpressionChanged(newExpression: String)
 
     fun addSignalIfPossible(signal: Char) {
         when (signal) {
@@ -51,30 +50,40 @@ interface Calculator {
             expression += signal
             canAddDot = true
         }
+        calculatorViewModel.expressionViewModel.postValue(expression)
     }
 
-    fun canSignalBeAdded(signal: Char): Boolean {
+    private fun canSignalBeAdded(signal: Char): Boolean {
         return if (expression.isEmpty()) false
-        else if (signal == '×' || signal == '÷')
-            when (expression[expression.length - 1]) {
-                '+', '-' -> false
-                else -> true
-            }
+        else if (signal == '×' || signal == '÷') when (expression[expression.length - 1]) {
+            '+', '-' -> false
+            else -> true
+        }
         else true
     }
 
-    fun isLastCharASignal(): Boolean {
+    private fun isLastCharASignal(): Boolean {
         return if (expression.isEmpty()) false
-        else
-            when (expression[expression.length - 1]) {
-                '÷', '×' -> true
-                else -> false
-            }
+        else when (expression[expression.length - 1]) {
+            '÷', '×' -> true
+            else -> false
+        }
     }
 
     fun cleanAll() {
         expression = ""
         canAddDot = true
-        onExpressionChanged(expression)
+        calculatorViewModel.expressionViewModel.postValue(expression)
+        calculatorViewModel.result.postValue(expression)
+    }
+
+    companion object {
+        private var instance: Calculator? = null
+
+        @JvmStatic
+        fun getInstance(): Calculator {
+            if (instance == null) instance = Calculator()
+            return instance!!
+        }
     }
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewer_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/buttons_layout"
+        app:layout_constraintBottom_toTopOf="@id/operations_view_pager"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -56,165 +56,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/buttons_layout"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/operations_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/background_calculator_buttons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/operators"
         app:layout_constraintHeight_percent=".7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewer_layout"
         app:layout_constraintVertical_bias="1"
-        app:layout_constraintWidth_percent=".75">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/first_line_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/second_line_layout"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_7"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_7"
-                app:layout_constraintEnd_toStartOf="@+id/num_8"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_8"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_8"
-                app:layout_constraintEnd_toStartOf="@id/num_9"
-                app:layout_constraintStart_toEndOf="@id/num_7" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_9"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/num_8" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/second_line_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/third_line_layout"
-            app:layout_constraintTop_toBottomOf="@id/first_line_layout">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_4"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_4"
-                app:layout_constraintEnd_toStartOf="@+id/num_5"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_5"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_5"
-                app:layout_constraintEnd_toStartOf="@id/num_6"
-                app:layout_constraintStart_toEndOf="@id/num_4" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_6"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/num_5" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/third_line_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/fourth_line_layout"
-            app:layout_constraintTop_toBottomOf="@id/second_line_layout">
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_1"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_1"
-                app:layout_constraintEnd_toStartOf="@+id/num_2"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_2"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_2"
-                app:layout_constraintEnd_toStartOf="@id/num_3"
-                app:layout_constraintStart_toEndOf="@id/num_1" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_3"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/num_2" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fourth_line_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/third_line_layout">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/dot"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/dot"
-                app:layout_constraintEnd_toStartOf="@+id/num_0"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/num_0"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/num_0"
-                app:layout_constraintEnd_toStartOf="@id/equals"
-                app:layout_constraintStart_toEndOf="@id/dot" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/equals"
-                style="@style/CalcVision.Button.Calculator"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/equals"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/num_0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintWidth_percent=".75"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/operators"
@@ -223,8 +75,8 @@
         android:background="@color/background_calculator_operators_buttons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/buttons_layout"
-        app:layout_constraintTop_toTopOf="@id/buttons_layout">
+        app:layout_constraintStart_toEndOf="@id/operations_view_pager"
+        app:layout_constraintTop_toTopOf="@id/operations_view_pager">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/del"

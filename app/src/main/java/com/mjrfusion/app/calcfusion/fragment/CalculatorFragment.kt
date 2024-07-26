@@ -1,58 +1,61 @@
 package com.mjrfusion.app.calcfusion.fragment
 
 import android.view.View
-import com.mjrfusion.app.calcfusion.core.fragment.BaseFragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.mjrfusion.app.calcfusion.R
+import com.mjrfusion.app.calcfusion.adapter.OperatorsAdapter
+import com.mjrfusion.app.calcfusion.calculator.Calculator
+import com.mjrfusion.app.calcfusion.core.fragment.BaseFragment
 import com.mjrfusion.app.calcfusion.databinding.FragmentCalculatorBinding
-import com.mjrfusion.app.calcfusion.listener.CalculatorButtonClickListener
+import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 
-class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), CalculatorButtonClickListener {
+class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
     private lateinit var binding: FragmentCalculatorBinding
-    override var expression: String = ""
-    override var canAddDot = true
+    private lateinit var calculator: Calculator
 
     override fun initializeAttributes(view: View) {
         binding = FragmentCalculatorBinding.bind(view)
+        binding.operationsViewPager.apply {
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            adapter = OperatorsAdapter(childFragmentManager, lifecycle)
+        }
+        calculator = Calculator.getInstance()
+        setExpressionObserver()
+    }
+
+    private fun setExpressionObserver() {
+        calculator.calculatorViewModel =
+            ViewModelProvider(this)[CalculatorViewModel::class.java].apply {
+                expressionViewModel.observeForever {
+                    binding.expression.text = it
+                }
+
+                result.observeForever {
+                    binding.result.text = it
+                }
+            }
     }
 
     override fun setListeners() {
         setButtonsClickListener()
-        setClearButtonLongClickListener()
     }
 
     private fun setButtonsClickListener() {
-        this.let {
+        let {
             binding.apply {
-                num0.setOnClickListener(it)
-                num1.setOnClickListener(it)
-                num2.setOnClickListener(it)
-                num3.setOnClickListener(it)
-                num4.setOnClickListener(it)
-                num5.setOnClickListener(it)
-                num6.setOnClickListener(it)
-                num7.setOnClickListener(it)
-                num8.setOnClickListener(it)
-                num9.setOnClickListener(it)
-                dot.setOnClickListener(it)
-                equals.setOnClickListener(it)
-                del.setOnClickListener(it)
-                multiplication.setOnClickListener(it)
-                division.setOnClickListener(it)
-                subtraction.setOnClickListener(it)
-                addition.setOnClickListener(it)
+                del.apply {
+                    setOnClickListener { calculator.removeLastChar() }
+                    setOnLongClickListener {
+                        calculator.cleanAll()
+                        true
+                    }
+                }
+                multiplication.setOnClickListener { calculator.addSignalIfPossible('×') }
+                division.setOnClickListener { calculator.addSignalIfPossible('÷') }
+                subtraction.setOnClickListener { calculator.addSignalIfPossible('-') }
+                addition.setOnClickListener { calculator.addSignalIfPossible('+') }
             }
         }
-    }
-
-    private fun setClearButtonLongClickListener() {
-        binding.del.setOnLongClickListener(this)
-    }
-
-    override fun onExpressionChanged(newExpression: String) {
-        binding.expression.text = newExpression
-    }
-
-    override fun onExpressionEvaluated(result: String) {
-        binding.result.text = result
     }
 }
