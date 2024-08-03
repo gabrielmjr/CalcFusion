@@ -21,7 +21,8 @@ class SecondOperationsFragment : BaseFragment(R.layout.fragment_second_operation
 
     private fun setButtonsClickListener() {
         binding.apply {
-
+            openBracket.setOnClickListener { calculator.openBracket() }
+            closeBracket.setOnClickListener { calculator.closeBracket() }
         }
     }
 }

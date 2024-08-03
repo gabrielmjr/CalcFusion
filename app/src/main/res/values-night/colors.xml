@@ -8,4 +8,5 @@
     <color name="navigationBarColor">@color/background_calculator_buttons</color>
     <color name="buttonTextColor">#FFFFFFFF</color>
     <color name="expressionTextColor">#FFFFFFFF</color>
+    <color name="expressionTextHintColor">#7D7D7D</color>
 </resources>

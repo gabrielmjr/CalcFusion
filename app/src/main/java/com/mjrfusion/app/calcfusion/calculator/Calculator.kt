@@ -8,6 +8,9 @@ class Calculator {
     private var expression = ""
     private var canAddDot by Delegates.notNull<Boolean>()
     lateinit var calculatorViewModel: CalculatorViewModel
+    private var openedBrackets = 0
+    lateinit var hintHelper: HintHelper
+    private var hint = ""
 
     fun addNumber(charNumber: Char) {
         expression += charNumber
@@ -33,6 +36,15 @@ class Calculator {
 
     fun removeLastChar() {
         if (expression.isNotEmpty()) {
+            if (expression.last() == ')') {
+                hint += "$hint)"
+                openedBrackets++
+                hintHelper.onHintTextChanged(hint)
+            } else if (expression.last() == '(') {
+                hint = hint.substring(0, hint.length - 1)
+                openedBrackets--
+                hintHelper.onHintTextChanged(hint)
+            }
             expression = expression.substring(0, expression.length - 1)
             calculatorViewModel.expressionViewModel.postValue(expression)
         }
@@ -71,11 +83,31 @@ class Calculator {
         }
     }
 
+    fun openBracket() {
+        expression += "("
+        openedBrackets++
+        hint += ")"
+        hintHelper.onHintTextChanged(hint)
+        calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
+    fun closeBracket() {
+        if (openedBrackets > 0) {
+            expression += ")"
+            openedBrackets--
+            hint = hint.substring(0, hint.length - 1)
+            hintHelper.onHintTextChanged(hint)
+            calculatorViewModel.expressionViewModel.postValue(expression)
+        }
+    }
+
     fun cleanAll() {
         expression = ""
         canAddDot = true
         calculatorViewModel.expressionViewModel.postValue(expression)
         calculatorViewModel.result.postValue(expression)
+        hint = ""
+        hintHelper.onHintTextChanged(hint)
     }
 
     companion object {
@@ -86,5 +118,9 @@ class Calculator {
             if (instance == null) instance = Calculator()
             return instance!!
         }
+    }
+
+    interface HintHelper {
+        fun onHintTextChanged(hint: String)
     }
 }
