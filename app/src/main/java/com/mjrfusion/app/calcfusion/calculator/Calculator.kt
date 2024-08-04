@@ -20,6 +20,8 @@ class Calculator {
     }
 
     fun evaluate() {
+        for (i in 1..openedBrackets)
+            closeBracket()
         val temp = expression.replace('×', '*').replace('÷', '/')
         calculatorViewModel.result.postValue(
             removeLastZero(
