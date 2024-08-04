@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewer_layout"
@@ -24,12 +24,27 @@
             app:layout_constraintVertical_bias=".25"
             app:layout_constraintWidth_percent=".95">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/expression"
-                style="@style/CalcVision.TextView.Expression"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lines="1" />
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expression"
+                    style="@style/CalcVision.TextView.Expression"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expression_hint"
+                    style="@style/CalcVision.TextView.Expression.Hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1" />
+
+            </LinearLayout>
 
         </HorizontalScrollView>
 
@@ -66,7 +81,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewer_layout"
         app:layout_constraintVertical_bias="1"
-        app:layout_constraintWidth_percent=".75"/>
+        app:layout_constraintWidth_percent=".75" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/operators"

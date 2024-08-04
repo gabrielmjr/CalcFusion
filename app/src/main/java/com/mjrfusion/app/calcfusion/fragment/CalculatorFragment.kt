@@ -10,7 +10,7 @@ import com.mjrfusion.app.calcfusion.core.fragment.BaseFragment
 import com.mjrfusion.app.calcfusion.databinding.FragmentCalculatorBinding
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 
-class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
+class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculator.HintHelper {
     private lateinit var binding: FragmentCalculatorBinding
     private lateinit var calculator: Calculator
 
@@ -21,6 +21,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
             adapter = OperatorsAdapter(childFragmentManager, lifecycle)
         }
         calculator = Calculator.getInstance()
+        calculator.hintHelper = this
         setExpressionObserver()
     }
 
@@ -57,5 +58,9 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                 addition.setOnClickListener { calculator.addSignalIfPossible('+') }
             }
         }
+    }
+
+    override fun onHintTextChanged(hint: String) {
+        binding.expressionHint.text = hint
     }
 }
