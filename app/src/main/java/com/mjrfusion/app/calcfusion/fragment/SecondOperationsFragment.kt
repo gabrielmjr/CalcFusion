@@ -23,6 +23,9 @@ class SecondOperationsFragment : BaseFragment(R.layout.fragment_second_operation
         binding.apply {
             openBracket.setOnClickListener { calculator.openBracket() }
             closeBracket.setOnClickListener { calculator.closeBracket() }
+            sin.setOnClickListener { calculator.addSin() }
+            cos.setOnClickListener { calculator.addCos() }
+            tangent.setOnClickListener { calculator.addTangent() }
         }
     }
 }

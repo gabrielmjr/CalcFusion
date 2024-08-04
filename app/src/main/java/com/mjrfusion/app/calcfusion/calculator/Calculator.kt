@@ -2,6 +2,8 @@ package com.mjrfusion.app.calcfusion.calculator
 
 import com.ezylang.evalex.Expression
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
+import java.math.MathContext
+import java.math.RoundingMode
 import kotlin.properties.Delegates
 
 class Calculator {
@@ -19,7 +21,19 @@ class Calculator {
 
     fun evaluate() {
         val temp = expression.replace('×', '*').replace('÷', '/')
-        calculatorViewModel.result.postValue(Expression(temp).evaluate().value.toString())
+        calculatorViewModel.result.postValue(
+            removeLastZero(
+                Expression(temp).evaluate().numberValue.round(
+                    MathContext(15, RoundingMode.HALF_UP)
+                ).toString()
+            )
+        )
+    }
+
+    private fun removeLastZero(result: String): String {
+        if (result[result.length - 2] == '0')
+            return removeLastZero(result.substring(0, result.length - 1))
+        return result
     }
 
     fun addDotIfPossible() {
@@ -81,6 +95,21 @@ class Calculator {
             '÷', '×' -> true
             else -> false
         }
+    }
+
+    fun addSin() {
+        expression += "sin"
+        openBracket()
+    }
+
+    fun addCos() {
+        expression += "cos"
+        openBracket()
+    }
+
+    fun addTangent() {
+        expression += "tan"
+        openBracket()
     }
 
     fun openBracket() {
