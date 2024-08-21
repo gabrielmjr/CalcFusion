@@ -113,7 +113,7 @@
                 style="@style/CalcVision.Button.Calculator"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/expoent"
+                android:text="@string/exponent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/euler" />
 

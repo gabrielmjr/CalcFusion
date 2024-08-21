@@ -29,6 +29,8 @@
     <string name="tangent">tan</string>
     <string name="pi">PI</string>
     <string name="euler">e</string>
-    <string name="expoent">^</string>
+    <string name="exponent">^</string>
     <string name="square_root">sqrt</string>
+
+    <string name="invalid_expression">Invalid expression</string>
 </resources>

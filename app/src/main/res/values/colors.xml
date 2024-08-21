@@ -5,6 +5,7 @@
     <color name="white">#FFFFFF</color>
     <color name="background_calculator_buttons">#000000</color>
     <color name="background_calculator_operators_buttons">#0031FF</color>
+    <color name="red">#FFFF0000</color>
     <color name="navigationBarColor">@color/background_calculator_buttons</color>
     <color name="buttonTextColor">#FFFFFFFF</color>
     <color name="expressionTextColor">#FFFFFFFF</color>

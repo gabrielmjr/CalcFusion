@@ -7,11 +7,14 @@ import java.math.RoundingMode
 import kotlin.properties.Delegates
 
 class Calculator {
+    lateinit var calculatorViewModel: CalculatorViewModel
+    lateinit var hintHelper: HintHelper
+    lateinit var expressionValidation: ExpressionValidation
+    var isInvalidExpression = false
+
     private var expression = ""
     private var canAddDot by Delegates.notNull<Boolean>()
-    lateinit var calculatorViewModel: CalculatorViewModel
     private var openedBrackets = 0
-    lateinit var hintHelper: HintHelper
     private var hint = ""
 
     fun addNumber(charNumber: Char) {
@@ -20,20 +23,25 @@ class Calculator {
     }
 
     fun evaluate() {
-        if (expression.isEmpty()) {
-            calculatorViewModel.result.postValue("0")
-            return
-        }
-        for (i in 1..openedBrackets)
-            closeBracket()
-        val temp = expression.replace('×', '*').replace('÷', '/')
-        calculatorViewModel.result.postValue(
-            removeLastZero(
-                Expression(temp).evaluate().numberValue.round(
-                    MathContext(15, RoundingMode.HALF_UP)
-                ).toString()
+        try {
+            if (expression.isEmpty()) {
+                calculatorViewModel.result.postValue("0")
+                return
+            }
+            for (i in 1..openedBrackets)
+                closeBracket()
+            val temp = expression.replace('×', '*').replace('÷', '/')
+            calculatorViewModel.result.postValue(
+                removeLastZero(
+                    Expression(temp).evaluate().numberValue.round(
+                        MathContext(15, RoundingMode.HALF_UP)
+                    ).toString()
+                )
             )
-        )
+        } catch (_: Exception) {
+            isInvalidExpression = true
+            expressionValidation.onExpressionInvalid()
+        }
     }
 
     private fun removeLastZero(result: String): String {
@@ -157,5 +165,9 @@ class Calculator {
 
     interface HintHelper {
         fun onHintTextChanged(hint: String)
+    }
+
+    interface ExpressionValidation {
+        fun onExpressionInvalid()
     }
 }
