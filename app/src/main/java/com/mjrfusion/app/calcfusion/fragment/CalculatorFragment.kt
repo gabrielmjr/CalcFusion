@@ -1,6 +1,8 @@
 package com.mjrfusion.app.calcfusion.fragment
 
+import android.annotation.SuppressLint
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.mjrfusion.app.calcfusion.R
@@ -10,7 +12,8 @@ import com.mjrfusion.app.calcfusion.core.fragment.BaseFragment
 import com.mjrfusion.app.calcfusion.databinding.FragmentCalculatorBinding
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 
-class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculator.HintHelper {
+class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculator.HintHelper,
+    Calculator.ExpressionValidation {
     private lateinit var binding: FragmentCalculatorBinding
     private lateinit var calculator: Calculator
 
@@ -22,6 +25,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
         }
         calculator = Calculator.getInstance()
         calculator.hintHelper = this
+        calculator.expressionValidation = this
         setExpressionObserver()
     }
 
@@ -29,6 +33,8 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
         calculator.calculatorViewModel =
             ViewModelProvider(this)[CalculatorViewModel::class.java].apply {
                 expressionViewModel.observeForever {
+                    if (calculator.isInvalidExpression)
+                        stopInvalidExpression()
                     binding.expression.text = it
                 }
 
@@ -62,5 +68,21 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator), Calculato
 
     override fun onHintTextChanged(hint: String) {
         binding.expressionHint.text = hint
+    }
+
+    override fun onExpressionInvalid() {
+        binding.result.apply {
+            setTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
+            setText(R.string.invalid_expression)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun stopInvalidExpression() {
+        calculator.isInvalidExpression = false
+        binding.result.apply {
+            text = ""
+            setTextColor(ResourcesCompat.getColor(resources, R.color.expressionTextColor, null))
+        }
     }
 }

@@ -2,14 +2,19 @@ package com.mjrfusion.app.calcfusion.calculator
 
 import com.ezylang.evalex.Expression
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
+import java.math.MathContext
+import java.math.RoundingMode
 import kotlin.properties.Delegates
 
 class Calculator {
+    lateinit var calculatorViewModel: CalculatorViewModel
+    lateinit var hintHelper: HintHelper
+    lateinit var expressionValidation: ExpressionValidation
+    var isInvalidExpression = false
+
     private var expression = ""
     private var canAddDot by Delegates.notNull<Boolean>()
-    lateinit var calculatorViewModel: CalculatorViewModel
     private var openedBrackets = 0
-    lateinit var hintHelper: HintHelper
     private var hint = ""
 
     fun addNumber(charNumber: Char) {
@@ -18,8 +23,37 @@ class Calculator {
     }
 
     fun evaluate() {
-        val temp = expression.replace('×', '*').replace('÷', '/')
-        calculatorViewModel.result.postValue(Expression(temp).evaluate().value.toString())
+        try {
+            if (expression.isEmpty()) {
+                calculatorViewModel.result.postValue("0")
+                return
+            }
+            for (i in 1..openedBrackets)
+                closeBracket()
+            val temp = expression.replace('×', '*')
+                .replace('÷', '/')
+                .replace("π", "PI")
+                .replace('e', 'E')
+                .replace("√", "SQRT")
+
+            calculatorViewModel.result.postValue(
+                removeLastZero(
+                    Expression(temp).evaluate().numberValue.round(
+                        MathContext(15, RoundingMode.HALF_UP)
+                    ).toString()
+                )
+            )
+        } catch (_: Exception) {
+            isInvalidExpression = true
+            expressionValidation.onExpressionInvalid()
+        }
+    }
+
+    private fun removeLastZero(result: String): String {
+        val length = result.length - 2
+        if (length > 0 && result[length] == '0')
+            return removeLastZero(result.substring(0, result.length - 1))
+        return result
     }
 
     fun addDotIfPossible() {
@@ -83,6 +117,41 @@ class Calculator {
         }
     }
 
+    fun addSin() {
+        expression += "sin"
+        openBracket()
+    }
+
+    fun addCos() {
+        expression += "cos"
+        openBracket()
+    }
+
+    fun addTangent() {
+        expression += "tan"
+        openBracket()
+    }
+
+    fun addPi() {
+        expression += "π"
+        calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
+    fun addEuler() {
+        expression += "e"
+        calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
+    fun addExponent() {
+        expression += "^"
+        calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
+    fun addSquareRoot() {
+        expression += "√"
+        openBracket()
+    }
+
     fun openBracket() {
         expression += "("
         openedBrackets++
@@ -122,5 +191,9 @@ class Calculator {
 
     interface HintHelper {
         fun onHintTextChanged(hint: String)
+    }
+
+    interface ExpressionValidation {
+        fun onExpressionInvalid()
     }
 }
