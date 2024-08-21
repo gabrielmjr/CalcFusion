@@ -34,6 +34,8 @@ class Calculator {
                 .replace('÷', '/')
                 .replace("π", "PI")
                 .replace('e', 'E')
+                .replace("√", "SQRT")
+
             calculatorViewModel.result.postValue(
                 removeLastZero(
                     Expression(temp).evaluate().numberValue.round(
@@ -48,7 +50,8 @@ class Calculator {
     }
 
     private fun removeLastZero(result: String): String {
-        if (result[result.length - 2] == '0')
+        val length = result.length - 2
+        if (length > 0 && result[length] == '0')
             return removeLastZero(result.substring(0, result.length - 1))
         return result
     }
@@ -142,6 +145,11 @@ class Calculator {
     fun addExponent() {
         expression += "^"
         calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
+    fun addSquareRoot() {
+        expression += "√"
+        openBracket()
     }
 
     fun openBracket() {

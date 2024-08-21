@@ -29,6 +29,7 @@ class SecondOperationsFragment : BaseFragment(R.layout.fragment_second_operation
             pi.setOnClickListener { calculator.addPi() }
             euler.setOnClickListener { calculator.addEuler() }
             exponent.setOnClickListener { calculator.addExponent() }
+            squareRoot.setOnClickListener { calculator.addSquareRoot() }
         }
     }
 }
