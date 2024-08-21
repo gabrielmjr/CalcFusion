@@ -30,7 +30,10 @@ class Calculator {
             }
             for (i in 1..openedBrackets)
                 closeBracket()
-            val temp = expression.replace('×', '*').replace('÷', '/')
+            val temp = expression.replace('×', '*')
+                .replace('÷', '/')
+                .replace("π", "PI")
+                .replace('e', 'E')
             calculatorViewModel.result.postValue(
                 removeLastZero(
                     Expression(temp).evaluate().numberValue.round(
@@ -124,6 +127,21 @@ class Calculator {
     fun addTangent() {
         expression += "tan"
         openBracket()
+    }
+
+    fun addPi() {
+        expression += "π"
+        calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
+    fun addEuler() {
+        expression += "e"
+        calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
+    fun addExponent() {
+        expression += "^"
+        calculatorViewModel.expressionViewModel.postValue(expression)
     }
 
     fun openBracket() {

@@ -27,7 +27,7 @@
     <string name="open_bracket">(</string>
     <string name="close_bracket">)</string>
     <string name="tangent">tan</string>
-    <string name="pi">PI</string>
+    <string name="pi">π</string>
     <string name="euler">e</string>
     <string name="exponent">^</string>
     <string name="square_root">sqrt</string>

@@ -105,11 +105,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="@string/euler"
-                app:layout_constraintEnd_toStartOf="@id/expoent"
+                app:layout_constraintEnd_toStartOf="@id/exponent"
                 app:layout_constraintStart_toEndOf="@id/pi" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/expoent"
+                android:id="@+id/exponent"
                 style="@style/CalcVision.Button.Calculator"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

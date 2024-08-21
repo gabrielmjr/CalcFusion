@@ -26,6 +26,9 @@ class SecondOperationsFragment : BaseFragment(R.layout.fragment_second_operation
             sin.setOnClickListener { calculator.addSin() }
             cos.setOnClickListener { calculator.addCos() }
             tangent.setOnClickListener { calculator.addTangent() }
+            pi.setOnClickListener { calculator.addPi() }
+            euler.setOnClickListener { calculator.addEuler() }
+            exponent.setOnClickListener { calculator.addExponent() }
         }
     }
 }
