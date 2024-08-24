@@ -5,12 +5,12 @@ fun String.isLastItemBasicTrigonometry(): Boolean {
     if (this.length < 3)
         return false
     for (basicTrigonometric in arrayOf("sin", "cos", "tan"))
-        if (getLastBasicTrigonometry().contains(basicTrigonometric))
+        if (getLastBasicTrigonometryFunction().contains(basicTrigonometric))
             isBasicTrigonometricContained = true
     return isBasicTrigonometricContained
 }
 
-private fun String.getLastBasicTrigonometry(): String {
+fun String.getLastBasicTrigonometryFunction(): String {
     val length = toString().length
     return this.substring(length - 3, length)
 }
