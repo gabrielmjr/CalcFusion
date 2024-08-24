@@ -1,6 +1,8 @@
 package com.mjrfusion.app.calcfusion.calculator
 
 import com.ezylang.evalex.Expression
+import com.mjrfusion.app.calcfusion.extensions.isLastItemBasicTrigonometry
+import com.mjrfusion.app.calcfusion.extensions.removeBasicTrigonometry
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 import java.math.MathContext
 import java.math.RoundingMode
@@ -80,6 +82,8 @@ class Calculator {
                 hintHelper.onHintTextChanged(hint)
             }
             expression = expression.substring(0, expression.length - 1)
+            if (expression.isLastItemBasicTrigonometry())
+                expression = expression.removeBasicTrigonometry()
             calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }
