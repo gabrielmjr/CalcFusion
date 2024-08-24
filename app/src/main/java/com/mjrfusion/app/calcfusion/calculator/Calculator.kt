@@ -72,21 +72,25 @@ class Calculator {
 
     fun removeLastChar() {
         if (expression.isNotEmpty()) {
-            if (expression.last() == ')') {
-                hint += "$hint)"
-                openedBrackets++
-                hintHelper.onHintTextChanged(hint)
-            } else if (expression.last() == '(') {
-                hint = hint.substring(0, hint.length - 1)
-                openedBrackets--
-                hintHelper.onHintTextChanged(hint)
-            }
+            normalizeIfLastCharIsBracket()
             expression = expression.substring(0, expression.length - 1)
             if (expression.isLastItemBasicTrigonometry())
                 expression = expression.removeBasicTrigonometry()
             else if (expression.last() == '√')
                 expression = expression.substring(0, expression.length - 1)
             calculatorViewModel.expressionViewModel.postValue(expression)
+        }
+    }
+
+    private fun normalizeIfLastCharIsBracket() {
+        if (expression.last() == ')') {
+            hint += "$hint)"
+            openedBrackets++
+            hintHelper.onHintTextChanged(hint)
+        } else if (expression.last() == '(') {
+            hint = hint.substring(0, hint.length - 1)
+            openedBrackets--
+            hintHelper.onHintTextChanged(hint)
         }
     }
 
