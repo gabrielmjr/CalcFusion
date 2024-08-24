@@ -84,6 +84,8 @@ class Calculator {
             expression = expression.substring(0, expression.length - 1)
             if (expression.isLastItemBasicTrigonometry())
                 expression = expression.removeBasicTrigonometry()
+            else if (expression.last() == '√')
+                expression = expression.substring(0, expression.length - 1)
             calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }
