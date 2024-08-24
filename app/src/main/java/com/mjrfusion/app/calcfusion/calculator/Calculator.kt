@@ -170,6 +170,11 @@ class Calculator {
         }
     }
 
+    fun setPercentage() {
+        expression += "%"
+        calculatorViewModel.expressionViewModel.postValue(expression)
+    }
+
     fun cleanAll() {
         expression = ""
         canAddDot = true
