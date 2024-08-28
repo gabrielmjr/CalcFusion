@@ -84,7 +84,7 @@ class Calculator {
 
     private fun normalizeIfLastCharIsBracket() {
         if (expression.last() == ')') {
-            hint += "$hint)"
+            hint += ")"
             openedBrackets++
             hintHelper.onHintTextChanged(hint)
         } else if (expression.last() == '(') {
