@@ -1,6 +1,8 @@
 package com.mjrfusion.app.calcfusion.calculator
 
 import com.ezylang.evalex.Expression
+import com.mjrfusion.app.calcfusion.extensions.isLastItemBasicTrigonometry
+import com.mjrfusion.app.calcfusion.extensions.removeBasicTrigonometry
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 import java.math.MathContext
 import java.math.RoundingMode
@@ -70,17 +72,26 @@ class Calculator {
 
     fun removeLastChar() {
         if (expression.isNotEmpty()) {
-            if (expression.last() == ')') {
-                hint += "$hint)"
-                openedBrackets++
-                hintHelper.onHintTextChanged(hint)
-            } else if (expression.last() == '(') {
-                hint = hint.substring(0, hint.length - 1)
-                openedBrackets--
-                hintHelper.onHintTextChanged(hint)
-            }
-            expression = expression.substring(0, expression.length - 1)
+            normalizeIfLastCharIsBracket()
+            if (expression.isLastItemBasicTrigonometry())
+                expression = expression.removeBasicTrigonometry()
+            else if (expression.last() == '√')
+                expression = expression.substring(0, expression.length - 1)
+            else
+                expression = expression.substring(0, expression.length - 1)
             calculatorViewModel.expressionViewModel.postValue(expression)
+        }
+    }
+
+    private fun normalizeIfLastCharIsBracket() {
+        if (expression.last() == ')') {
+            hint += ")"
+            openedBrackets++
+            hintHelper.onHintTextChanged(hint)
+        } else if (expression.last() == '(') {
+            hint = hint.substring(0, hint.length - 1)
+            openedBrackets--
+            hintHelper.onHintTextChanged(hint)
         }
     }
 
@@ -168,6 +179,11 @@ class Calculator {
             hintHelper.onHintTextChanged(hint)
             calculatorViewModel.expressionViewModel.postValue(expression)
         }
+    }
+
+    fun setPercentage() {
+        expression += "%"
+        calculatorViewModel.expressionViewModel.postValue(expression)
     }
 
     fun cleanAll() {
