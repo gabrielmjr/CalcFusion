@@ -1,15 +1,19 @@
 package com.mjrfusion.app.calcfusion.core.activity
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 abstract class BaseActivity : AppCompatActivity() {
+    lateinit var handler: Handler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeActivity()
         initializeAttributes()
+        handler = Handler(mainLooper)
     }
 
     protected abstract fun initializeActivity()

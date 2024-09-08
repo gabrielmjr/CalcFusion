@@ -1,28 +1,44 @@
 package com.mjrfusion.app.calcfusion.core.fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.mjrfusion.app.calcfusion.core.activity.BaseActivity
 
-abstract class BaseFragment(@LayoutRes root: Int): Fragment(root) {
+abstract class BaseFragment : Fragment() {
     val mLocalTag = this::class.java.canonicalName
-    lateinit var baseActivity: BaseActivity
+    private lateinit var baseActivity: BaseActivity
+    lateinit var handler: Handler
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         initializeThisAttributes()
-        initializeAttributes(view)
+        val view = onCreateView(layoutInflater)
+        initializeAttributes(view!!)
+        initializeAttributes(view, savedInstanceState)
         setListeners()
+        return view
+    }
+
+    protected open fun onCreateView(layoutInflater: LayoutInflater): View? {
+        return null
     }
 
     private fun initializeThisAttributes() {
         baseActivity = requireActivity() as BaseActivity
+        handler = baseActivity.handler
     }
 
-    protected abstract fun initializeAttributes(view: View)
+    protected open fun initializeAttributes(view: View) {}
+
+    protected open fun initializeAttributes(view: View, savedInstanceState: Bundle?) {}
 
     protected open fun setListeners() {}
 

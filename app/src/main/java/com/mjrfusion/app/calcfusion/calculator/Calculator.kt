@@ -73,12 +73,12 @@ class Calculator {
     fun removeLastChar() {
         if (expression.isNotEmpty()) {
             normalizeIfLastCharIsBracket()
-            if (expression.isLastItemBasicTrigonometry())
-                expression = expression.removeBasicTrigonometry()
+            expression = if (expression.isLastItemBasicTrigonometry())
+                expression.removeBasicTrigonometry()
             else if (expression.last() == '√')
-                expression = expression.substring(0, expression.length - 1)
+                expression.substring(0, expression.length - 1)
             else
-                expression = expression.substring(0, expression.length - 1)
+                expression.substring(0, expression.length - 1)
             calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }
@@ -193,6 +193,10 @@ class Calculator {
         calculatorViewModel.result.postValue(expression)
         hint = ""
         hintHelper.onHintTextChanged(hint)
+    }
+
+    fun postExpression() {
+        calculatorViewModel.expressionViewModel.postValue(expression)
     }
 
     companion object {

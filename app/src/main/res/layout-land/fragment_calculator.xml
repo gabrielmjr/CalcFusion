@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/operations_view_pager"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <HorizontalScrollView
+            android:id="@+id/expression_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/result_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".25"
+            app:layout_constraintWidth_percent=".95">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expression"
+                    style="@style/CalcVision.TextView.Expression"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expression_hint"
+                    style="@style/CalcVision.TextView.Expression.Hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:id="@+id/result_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expression_layout"
+            app:layout_constraintVertical_bias=".25"
+            app:layout_constraintWidth_percent=".95">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/result"
+                style="@style/CalcVision.TextView.Result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1" />
+
+        </HorizontalScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/operations_view_pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/operators"
+        app:layout_constraintHeight_percent=".7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewer_layout"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintWidth_percent=".75" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/operators"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_calculator_operators_buttons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/operations_view_pager"
+        app:layout_constraintTop_toTopOf="@id/operations_view_pager">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/del"
+            style="@style/CalcVision.Button.Calculator.Operators"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/del"
+            app:layout_constraintBottom_toTopOf="@id/division"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/division"
+            style="@style/CalcVision.Button.Calculator.Operators"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/division"
+            app:layout_constraintBottom_toTopOf="@id/multiplication"
+            app:layout_constraintTop_toBottomOf="@id/del" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/multiplication"
+            style="@style/CalcVision.Button.Calculator.Operators"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/multiplication"
+            app:layout_constraintBottom_toTopOf="@id/subtraction"
+            app:layout_constraintTop_toBottomOf="@id/division" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/subtraction"
+            style="@style/CalcVision.Button.Calculator.Operators"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/subtraction"
+            app:layout_constraintBottom_toTopOf="@id/addition"
+            app:layout_constraintTop_toBottomOf="@id/multiplication" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addition"
+            style="@style/CalcVision.Button.Calculator.Operators"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/addition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subtraction" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
