@@ -1,14 +1,19 @@
 package com.mjrfusion.app.calcfusion.fragment
 
+import android.view.LayoutInflater
 import android.view.View
-import com.mjrfusion.app.calcfusion.R
 import com.mjrfusion.app.calcfusion.calculator.Calculator
 import com.mjrfusion.app.calcfusion.core.fragment.BaseFragment
 import com.mjrfusion.app.calcfusion.databinding.FragmentFirstOperationsBinding
 
-class FirstOperationsFragment : BaseFragment(R.layout.fragment_first_operations) {
+class FirstOperationsFragment : BaseFragment() {
     private lateinit var binding: FragmentFirstOperationsBinding
     private lateinit var calculator: Calculator
+
+    override fun onCreateView(layoutInflater: LayoutInflater): View {
+        binding = FragmentFirstOperationsBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
     override fun initializeAttributes(view: View) {
         binding = FragmentFirstOperationsBinding.bind(view)
