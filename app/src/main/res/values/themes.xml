@@ -1,42 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="CalcVision.Base.Theme" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Headline3</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="background">@color/black</item>
-        <item name="android:navigationBarColor">@color/navigationBarColor</item>
-        <item name="colorSurface">@color/black</item>
-        <item name="windowActionBar">false</item>
-    </style>
-
-    <style name="CalcVision.Button.Calculator" parent="">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
-        </item>
-        <item name="backgroundTint">@color/background_calculator_buttons</item>
-        <item name="android:textColor">@color/buttonTextColor</item>
-    </style>
-
-    <style name="CalcVision.TextView.Expression" parent="">
-        <item name="android:textAlignment">textEnd</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
-        </item>
-        <item name="android:layout_gravity">end</item>
-        <item name="android:textColor">@color/expressionTextColor</item>
-    </style>
-
-    <style name="CalcVision.TextView.Expression.Hint" parent="CalcVision.TextView.Expression">
-        <item name="android:textColor">@color/expressionTextHintColor</item>
-    </style>
-
-    <style name="CalcVision.TextView.Result" parent="CalcVision.TextView.Expression">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
-        </item>
-    </style>
-
-    <style name="CalcVision.Button.Calculator.Operators" parent="CalcVision.Button.Calculator">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
-        <item name="backgroundTint">@color/background_calculator_operators_buttons</item>
-        <item name="android:textColor">@color/buttonTextColor</item>
-    </style>
+    <style name="Theme.CalcFusion" parent="android:Theme.Material.Light.NoActionBar"/>
 </resources>
