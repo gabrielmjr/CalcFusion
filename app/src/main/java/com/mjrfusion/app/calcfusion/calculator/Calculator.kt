@@ -6,12 +6,14 @@ import com.mjrfusion.app.calcfusion.extensions.removeBasicTrigonometry
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 import java.math.MathContext
 import java.math.RoundingMode
+import kotlin.properties.Delegates
 
 class Calculator {
     lateinit var calculatorViewModel: CalculatorViewModel
     lateinit var hintHelper: HintHelper
     lateinit var expressionValidation: ExpressionValidation
     var isInvalidExpression = false
+    var isResultPreview by Delegates.notNull<Boolean>()
 
     private var expression = ""
     private var canAddDot = true
@@ -23,20 +25,24 @@ class Calculator {
         calculatorViewModel.expressionViewModel.postValue(expression)
     }
 
-    fun evaluate() {
+    fun previewResult() {
+        evaluate(true)
+    }
+
+    fun evaluate(isResultPreview: Boolean = false) {
+        this.isResultPreview = isResultPreview
         try {
             if (expression.isEmpty()) {
                 calculatorViewModel.result.postValue("0")
                 return
             }
-            for (i in 1..openedBrackets)
-                closeBracket()
-            val temp = expression.replace('×', '*')
-                .replace('÷', '/')
-                .replace("π", "PI")
-                .replace('e', 'E')
-                .replace("√", "SQRT")
-
+            for (i in 1..openedBrackets) closeBracket()
+            val temp =
+                expression.replace('×', '*')
+                    .replace('÷', '/')
+                    .replace("π", "PI")
+                    .replace('e', 'E')
+                    .replace("√", "SQRT")
             calculatorViewModel.result.postValue(
                 removeLastZero(
                     Expression(temp).evaluate().numberValue.round(
@@ -45,15 +51,22 @@ class Calculator {
                 )
             )
         } catch (_: Exception) {
-            isInvalidExpression = true
-            expressionValidation.onExpressionInvalid()
+            if (isResultPreview) calculatorViewModel.result.postValue("")
+            else {
+                isInvalidExpression = true
+                expressionValidation.onExpressionInvalid()
+            }
         }
     }
 
     private fun removeLastZero(result: String): String {
         val length = result.length - 2
-        if (length > 0 && result[length] == '0')
-            return removeLastZero(result.substring(0, result.length - 1))
+        if (length > 0 && result[length] == '0') return removeLastZero(
+            result.substring(
+                0,
+                result.length - 1
+            )
+        )
         return result
     }
 
@@ -72,12 +85,10 @@ class Calculator {
     fun removeLastChar() {
         if (expression.isNotEmpty()) {
             normalizeIfLastCharIsBracket()
-            expression = if (expression.isLastItemBasicTrigonometry())
-                expression.removeBasicTrigonometry()
-            else if (expression.last() == '√')
-                expression.substring(0, expression.length - 1)
-            else
-                expression.substring(0, expression.length - 1)
+            expression =
+                if (expression.isLastItemBasicTrigonometry()) expression.removeBasicTrigonometry()
+                else if (expression.last() == '√') expression.substring(0, expression.length - 1)
+                else expression.substring(0, expression.length - 1)
             calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }

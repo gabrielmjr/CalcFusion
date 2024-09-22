@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mjrfusion.app.calcfusion.calculator.Calculator
 import com.mjrfusion.app.calcfusion.ui.theme.CalcFusionTheme
+import kotlin.properties.Delegates
 
 val calculator = Calculator.getInstance()
 
@@ -95,7 +96,7 @@ fun ExpressionLabel() {
         }
         withStyle(
             style = SpanStyle(
-                color = Color.White,
+                color = Color.LightGray,
                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                 fontWeight = FontWeight.SemiBold
             )
@@ -103,17 +104,43 @@ fun ExpressionLabel() {
             append(hintText)
         }
     })
-    calculator.hintHelper = Calculator.HintHelper {
-        hint -> hintText = hint
-    }
-    calculator.calculatorViewModel.expressionViewModel.observeForever {
-        expression = it
+    calculator.apply {
+        hintHelper = Calculator.HintHelper { hint ->
+            hintText = hint
+        }
+        calculatorViewModel.expressionViewModel.observeForever {
+            expression = it
+            previewResult()
+        }
     }
 }
 
 @Composable
 fun ResultLabel() {
-
+    var result by remember { mutableStateOf("") }
+    var color by remember { mutableStateOf(Color.Transparent) }
+    Text(
+        modifier = Modifier
+            .padding(16.dp),
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    color = color,
+                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                    fontWeight = FontWeight.SemiBold
+                )
+            ) {
+                append(result)
+            }
+        }
+    )
+    calculator.apply {
+        calculatorViewModel.result.observeForever {
+            color = if (calculator.isResultPreview) Color.LightGray
+            else Color.White
+            result = it
+        }
+    }
 }
 
 @Composable
@@ -183,7 +210,7 @@ fun FourthLine(
         calculator.apply {
             CalculatorButton(stringResource(R.string.dot)) { addDotIfPossible() }
             CalculatorButton(stringResource(R.string.num_0)) { addNumber('0') }
-            CalculatorButton(stringResource(R.string.equals)) { evaluate() }
+            CalculatorButton(stringResource(R.string.equals)) { evaluate(false) }
         }
     }
 }
