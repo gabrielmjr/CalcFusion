@@ -1,7 +1,9 @@
 package com.mjrfusion.app.calcfusion
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,8 +57,7 @@ fun CalculatorScreen() {
                 ExpressionView()
             }
             Row(
-                modifier = Modifier
-                    .weight(5f),
+                modifier = Modifier.weight(5f),
             ) {
                 NumbersBox(
                     Modifier
@@ -65,9 +66,7 @@ fun CalculatorScreen() {
                     arrangement = Arrangement.spacedBy(2.dp)
                 )
                 OperatorsColumn(
-                    Modifier
-                        .padding(horizontal = 8.dp),
-                    arrangement = Arrangement.spacedBy(8.dp)
+                    Modifier.padding(horizontal = 8.dp), arrangement = Arrangement.spacedBy(8.dp)
                 )
             }
         }
@@ -77,43 +76,44 @@ fun CalculatorScreen() {
 @Composable
 fun ExpressionView() {
     ExpressionLabel()
+    ResultLabel()
 }
 
 @Composable
 fun ExpressionLabel() {
     var expression by remember { mutableStateOf("") }
-    var result by remember { mutableStateOf("") }
-    Text(modifier = Modifier
-        .padding(16.dp),
-        text = buildAnnotatedString {
-            withStyle(
-                style = SpanStyle(
-                    color = Color.White,
-                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                    fontWeight = FontWeight.SemiBold
-                )
-            ) {
-                append(expression + "\n")
-            }
-            withStyle(
-                style = SpanStyle(
-                    color = Color.Gray,
-                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                    fontWeight = FontWeight.SemiBold
-                )
-            ) {
-                append(result)
-            }
+    var hintText by remember { mutableStateOf("") }
+    Text(modifier = Modifier.padding(16.dp), text = buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                color = Color.White,
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                fontWeight = FontWeight.SemiBold
+            )
+        ) {
+            append(expression)
         }
-    )
-    calculator.calculatorViewModel.apply {
-        expressionViewModel.observeForever {
-            expression = it
+        withStyle(
+            style = SpanStyle(
+                color = Color.White,
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                fontWeight = FontWeight.SemiBold
+            )
+        ) {
+            append(hintText)
         }
-        this.result.observeForever {
-            result = it
-        }
+    })
+    calculator.hintHelper = Calculator.HintHelper {
+        hint -> hintText = hint
     }
+    calculator.calculatorViewModel.expressionViewModel.observeForever {
+        expression = it
+    }
+}
+
+@Composable
+fun ResultLabel() {
+
 }
 
 @Composable
@@ -160,8 +160,7 @@ fun SecondLineNumbers(
 
 @Composable
 fun ThirdLineNumbers(
-    modifier: Modifier,
-    arrangement: Arrangement.Horizontal
+    modifier: Modifier, arrangement: Arrangement.Horizontal
 ) {
     Row(
         modifier = modifier, horizontalArrangement = arrangement
@@ -176,8 +175,7 @@ fun ThirdLineNumbers(
 
 @Composable
 fun FourthLine(
-    modifier: Modifier,
-    arrangement: Arrangement.Horizontal
+    modifier: Modifier, arrangement: Arrangement.Horizontal
 ) {
     Row(
         modifier = modifier, horizontalArrangement = arrangement
@@ -191,20 +189,31 @@ fun FourthLine(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OperatorsColumn(
-    modifier: Modifier,
-    arrangement: Arrangement.Vertical
+    modifier: Modifier, arrangement: Arrangement.Vertical
 ) {
     Column(
         modifier = modifier, verticalArrangement = arrangement
     ) {
         calculator.apply {
-            CalculatorButton(stringResource(R.string.del)) { removeLastChar() }
-            CalculatorButton(stringResource(R.string.division)) { addSignalIfPossible('÷') }
-            CalculatorButton(stringResource(R.string.multiplication)) { addSignalIfPossible('×') }
-            CalculatorButton(stringResource(R.string.subtraction)) { addSignalIfPossible('-') }
-            CalculatorButton(stringResource(R.string.addition)) { addSignalIfPossible('+') }
+            CalculatorButton(
+                stringResource(R.string.del),
+                Modifier.combinedClickable(onClick = { removeLastChar() },
+                    onLongClick = { cleanAll() })
+            )
+            CalculatorButton(stringResource(R.string.division),
+                Modifier.combinedClickable { addSignalIfPossible('÷') })
+            CalculatorButton(stringResource(R.string.multiplication), Modifier.combinedClickable {
+                addSignalIfPossible(
+                    '×'
+                )
+            })
+            CalculatorButton(stringResource(R.string.subtraction),
+                Modifier.combinedClickable { addSignalIfPossible('-') })
+            CalculatorButton(stringResource(R.string.addition),
+                Modifier.combinedClickable { addSignalIfPossible('+') })
         }
     }
 }
@@ -224,7 +233,8 @@ fun RowScope.CalculatorButton(
             .aspectRatio(1F)
             .weight(1F)
             .clickable(onClick = onClick)
-            .then(modifier), contentAlignment = Alignment.Center
+            .then(modifier),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
@@ -242,16 +252,13 @@ fun ColumnScope.CalculatorButton(
     modifier: Modifier = Modifier,
     color: Color = Color.DarkGray,
     textStyle: TextStyle = TextStyle.Default,
-    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(48.dp))
             .background(color)
             .aspectRatio(1F)
-            .weight(1F)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
+            .weight(1F), contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,

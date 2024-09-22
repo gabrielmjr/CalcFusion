@@ -6,7 +6,6 @@ import com.mjrfusion.app.calcfusion.extensions.removeBasicTrigonometry
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 import java.math.MathContext
 import java.math.RoundingMode
-import kotlin.properties.Delegates
 
 class Calculator {
     lateinit var calculatorViewModel: CalculatorViewModel
@@ -15,7 +14,7 @@ class Calculator {
     var isInvalidExpression = false
 
     private var expression = ""
-    private var canAddDot by Delegates.notNull<Boolean>()
+    private var canAddDot = true
     private var openedBrackets = 0
     private var hint = ""
 
@@ -195,10 +194,6 @@ class Calculator {
         hintHelper.onHintTextChanged(hint)
     }
 
-    fun postExpression() {
-        calculatorViewModel.expressionViewModel.postValue(expression)
-    }
-
     companion object {
         private var instance: Calculator? = null
 
@@ -209,7 +204,7 @@ class Calculator {
         }
     }
 
-    interface HintHelper {
+    fun interface HintHelper {
         fun onHintTextChanged(hint: String)
     }
 
