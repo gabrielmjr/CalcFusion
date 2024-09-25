@@ -36,7 +36,8 @@ class Calculator {
                 calculatorViewModel.result.postValue("0")
                 return
             }
-            for (i in 1..openedBrackets) closeBracket()
+            if (!isResultPreview)
+                for (i in 1..openedBrackets) closeBracket()
             val temp =
                 expression.replace('×', '*')
                     .replace('÷', '/')
@@ -191,7 +192,7 @@ class Calculator {
         }
     }
 
-    fun setPercentage() {
+    fun addPercentage() {
         expression += "%"
         calculatorViewModel.expressionViewModel.postValue(expression)
     }

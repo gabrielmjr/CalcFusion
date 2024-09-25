@@ -73,7 +73,6 @@ dependencies {
     implementation libs.androidx.core.ktx
     implementation project(':extensions')
     implementation libs.eval.expressions
-    implementation project(':utils')
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
