@@ -3,9 +3,11 @@ package com.mjrfusion.app.calcfusion.calculator
 import com.ezylang.evalex.Expression
 import com.mjrfusion.app.calcfusion.extensions.isLastItemBasicTrigonometry
 import com.mjrfusion.app.calcfusion.extensions.removeBasicTrigonometry
+import com.mjrfusion.app.calcfusion.utils.ThreadUtils.threadPools
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 import java.math.MathContext
 import java.math.RoundingMode
+import kotlin.concurrent.thread
 import kotlin.properties.Delegates
 
 class Calculator {
@@ -30,34 +32,36 @@ class Calculator {
     }
 
     fun evaluate(isResultPreview: Boolean = false) {
-        this.isResultPreview = isResultPreview
-        try {
-            if (expression.isEmpty()) {
-                calculatorViewModel.result.postValue("0")
-                return
-            }
-            if (!isResultPreview)
-                for (i in 1..openedBrackets) closeBracket()
-            val temp =
-                expression.replace('×', '*')
-                    .replace('÷', '/')
-                    .replace("π", "PI")
-                    .replace('e', 'E')
-                    .replace("√", "SQRT")
-            calculatorViewModel.result.postValue(
-                removeLastZero(
-                    Expression(temp).evaluate().numberValue.round(
-                        MathContext(15, RoundingMode.HALF_UP)
-                    ).toString()
+        threadPools.execute {
+            try {
+                if (expression.isEmpty()) {
+                    calculatorViewModel.result.postValue("0")
+                    return@execute
+                }
+                if (!isResultPreview)
+                    for (i in 1..openedBrackets) closeBracket()
+                val temp =
+                    expression.replace('×', '*')
+                        .replace('÷', '/')
+                        .replace("π", "PI")
+                        .replace('e', 'E')
+                        .replace("√", "SQRT")
+                calculatorViewModel.result.postValue(
+                    removeLastZero(
+                        Expression(temp).evaluate().numberValue.round(
+                            MathContext(15, RoundingMode.HALF_UP)
+                        ).toString()
+                    )
                 )
-            )
-        } catch (_: Exception) {
-            if (isResultPreview) calculatorViewModel.result.postValue("")
-            else {
-                isInvalidExpression = true
-                expressionValidation.onExpressionInvalid()
+            } catch (_: Exception) {
+                if (isResultPreview) calculatorViewModel.result.postValue("")
+                else {
+                    isInvalidExpression = true
+                    expressionValidation.onExpressionInvalid()
+                }
             }
         }
+        this.isResultPreview = isResultPreview
     }
 
     private fun removeLastZero(result: String): String {
@@ -72,25 +76,29 @@ class Calculator {
     }
 
     fun addDotIfPossible() {
-        if (canAddDot) {
-            expression += if (expression.isEmpty()) "0."
-            else when (expression[expression.length - 1]) {
-                '×', '÷', '+', '-' -> "0."
-                else -> "."
+        threadPools.execute {
+            if (canAddDot) {
+                expression += if (expression.isEmpty()) "0."
+                else when (expression[expression.length - 1]) {
+                    '×', '÷', '+', '-' -> "0."
+                    else -> "."
+                }
+                canAddDot = false
+                calculatorViewModel.expressionViewModel.postValue(expression)
             }
-            canAddDot = false
-            calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }
 
     fun removeLastChar() {
-        if (expression.isNotEmpty()) {
-            normalizeIfLastCharIsBracket()
-            expression =
-                if (expression.isLastItemBasicTrigonometry()) expression.removeBasicTrigonometry()
-                else if (expression.last() == '√') expression.substring(0, expression.length - 1)
-                else expression.substring(0, expression.length - 1)
-            calculatorViewModel.expressionViewModel.postValue(expression)
+        threadPools.execute {
+            if (expression.isNotEmpty()) {
+                normalizeIfLastCharIsBracket()
+                expression =
+                    if (expression.isLastItemBasicTrigonometry()) expression.removeBasicTrigonometry()
+                    else if (expression.last() == '√') expression.substring(0, expression.length - 1)
+                    else expression.substring(0, expression.length - 1)
+                calculatorViewModel.expressionViewModel.postValue(expression)
+            }
         }
     }
 
@@ -107,19 +115,21 @@ class Calculator {
     }
 
     fun addSignalIfPossible(signal: Char) {
-        when (signal) {
-            '+', '-' -> {
+        threadPools.execute {
+            when (signal) {
+                '+', '-' -> {
+                    expression += signal
+                    canAddDot = true
+                    calculatorViewModel.expressionViewModel.postValue(expression)
+                    return@execute
+                }
+            }
+            if (canSignalBeAdded(signal) && !isLastCharASignal()) {
                 expression += signal
                 canAddDot = true
-                calculatorViewModel.expressionViewModel.postValue(expression)
-                return
             }
+            calculatorViewModel.expressionViewModel.postValue(expression)
         }
-        if (canSignalBeAdded(signal) && !isLastCharASignal()) {
-            expression += signal
-            canAddDot = true
-        }
-        calculatorViewModel.expressionViewModel.postValue(expression)
     }
 
     private fun canSignalBeAdded(signal: Char): Boolean {
@@ -140,70 +150,92 @@ class Calculator {
     }
 
     fun addSin() {
-        expression += "sin"
-        openBracket()
+        threadPools.execute {
+            expression += "sin"
+            openBracket()
+        }
     }
 
     fun addCos() {
-        expression += "cos"
-        openBracket()
+        threadPools.execute {
+            expression += "cos"
+            openBracket()
+        }
     }
 
     fun addTangent() {
-        expression += "tan"
-        openBracket()
+        threadPools.execute {
+            expression += "tan"
+            openBracket()
+        }
     }
 
     fun addPi() {
-        expression += "π"
-        calculatorViewModel.expressionViewModel.postValue(expression)
+        threadPools.execute {
+            expression += "π"
+            calculatorViewModel.expressionViewModel.postValue(expression)
+        }
     }
 
     fun addEuler() {
-        expression += "e"
-        calculatorViewModel.expressionViewModel.postValue(expression)
+        threadPools.execute {
+            expression += "e"
+            calculatorViewModel.expressionViewModel.postValue(expression)
+        }
     }
 
     fun addExponent() {
-        expression += "^"
-        calculatorViewModel.expressionViewModel.postValue(expression)
+        threadPools.execute {
+            expression += "^"
+            calculatorViewModel.expressionViewModel.postValue(expression)
+        }
     }
 
     fun addSquareRoot() {
-        expression += "√"
-        openBracket()
+        threadPools.execute {
+            expression += "√"
+            openBracket()
+        }
     }
 
     fun openBracket() {
-        expression += "("
-        openedBrackets++
-        hint += ")"
-        hintHelper.onHintTextChanged(hint)
-        calculatorViewModel.expressionViewModel.postValue(expression)
-    }
-
-    fun closeBracket() {
-        if (openedBrackets > 0) {
-            expression += ")"
-            openedBrackets--
-            hint = hint.substring(0, hint.length - 1)
+        threadPools.execute {
+            expression += "("
+            openedBrackets++
+            hint += ")"
             hintHelper.onHintTextChanged(hint)
             calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }
 
+    fun closeBracket() {
+        threadPools.execute {
+            if (openedBrackets > 0) {
+                expression += ")"
+                openedBrackets--
+                hint = hint.substring(0, hint.length - 1)
+                hintHelper.onHintTextChanged(hint)
+                calculatorViewModel.expressionViewModel.postValue(expression)
+            }
+        }
+    }
+
     fun addPercentage() {
-        expression += "%"
-        calculatorViewModel.expressionViewModel.postValue(expression)
+        threadPools.execute {
+            expression += "%"
+            calculatorViewModel.expressionViewModel.postValue(expression)
+        }
     }
 
     fun cleanAll() {
-        expression = ""
-        canAddDot = true
-        calculatorViewModel.expressionViewModel.postValue(expression)
-        calculatorViewModel.result.postValue(expression)
-        hint = ""
-        hintHelper.onHintTextChanged(hint)
+        threadPools.execute {
+            expression = ""
+            canAddDot = true
+            calculatorViewModel.expressionViewModel.postValue(expression)
+            calculatorViewModel.result.postValue(expression)
+            hint = ""
+            hintHelper.onHintTextChanged(hint)
+        }
     }
 
     companion object {

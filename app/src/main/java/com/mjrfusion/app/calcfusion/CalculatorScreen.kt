@@ -34,6 +34,8 @@ import com.mjrfusion.app.calcfusion.box.AdditionalOperationsFragment
 import com.mjrfusion.app.calcfusion.box.NumbersBox
 import com.mjrfusion.app.calcfusion.ui.CalculatorButton
 import com.mjrfusion.app.calcfusion.ui.theme.CalcFusionTheme
+import com.mjrfusion.app.calcfusion.utils.ThreadUtils.threadPools
+import kotlin.concurrent.thread
 
 val calculator = Calculator.getInstance()
 
@@ -110,12 +112,16 @@ fun ExpressionLabel() {
         )
     }
     calculator.apply {
-        hintHelper = Calculator.HintHelper { hint ->
-            hintText = hint
+        threadPools.execute {
+            hintHelper = Calculator.HintHelper { hint ->
+                hintText = hint
+            }
         }
         calculatorViewModel.expressionViewModel.observeForever {
-            expression = it
-            previewResult()
+            threadPools.execute {
+                expression = it
+                previewResult()
+            }
         }
     }
 }
@@ -139,8 +145,8 @@ fun ResultLabel() {
             }
         }
     )
-    calculator.apply {
-        calculatorViewModel.result.observeForever {
+    calculator.calculatorViewModel.result.observeForever {
+        threadPools.execute {
             color = if (calculator.isResultPreview) Color.LightGray
             else Color.White
             result = it
