@@ -29,13 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mjrfusion.app.calcfusion.calculator.Calculator
 import com.mjrfusion.app.calcfusion.box.AdditionalOperationsFragment
 import com.mjrfusion.app.calcfusion.box.NumbersBox
+import com.mjrfusion.app.calcfusion.calculator.Calculator
 import com.mjrfusion.app.calcfusion.ui.CalculatorButton
 import com.mjrfusion.app.calcfusion.ui.theme.CalcFusionTheme
 import com.mjrfusion.app.calcfusion.utils.ThreadUtils.threadPools
-import kotlin.concurrent.thread
 
 val calculator = Calculator.getInstance()
 
@@ -120,7 +119,7 @@ fun ExpressionLabel() {
         calculatorViewModel.expressionViewModel.observeForever {
             threadPools.execute {
                 expression = it
-                previewResult()
+                //previewResult()
             }
         }
     }
@@ -130,6 +129,7 @@ fun ExpressionLabel() {
 fun ResultLabel() {
     var result by remember { mutableStateOf("") }
     var color by remember { mutableStateOf(Color.Transparent) }
+    val invalidExpressionString = stringResource(R.string.invalid_expression)
     Text(
         modifier = Modifier
             .padding(16.dp),
@@ -151,6 +151,10 @@ fun ResultLabel() {
             else Color.White
             result = it
         }
+    }
+    calculator.expressionValidation = Calculator.ExpressionValidation {
+        color = Color.Red
+        result = invalidExpressionString
     }
 }
 

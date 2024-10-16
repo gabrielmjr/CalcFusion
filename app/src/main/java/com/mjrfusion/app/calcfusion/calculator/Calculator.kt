@@ -7,7 +7,6 @@ import com.mjrfusion.app.calcfusion.utils.ThreadUtils.threadPools
 import com.mjrfusion.app.calcfusion.viewmodel.CalculatorViewModel
 import java.math.MathContext
 import java.math.RoundingMode
-import kotlin.concurrent.thread
 import kotlin.properties.Delegates
 
 class Calculator {
@@ -95,7 +94,10 @@ class Calculator {
                 normalizeIfLastCharIsBracket()
                 expression =
                     if (expression.isLastItemBasicTrigonometry()) expression.removeBasicTrigonometry()
-                    else if (expression.last() == '√') expression.substring(0, expression.length - 1)
+                    else if (expression.last() == '√') expression.substring(
+                        0,
+                        expression.length - 1
+                    )
                     else expression.substring(0, expression.length - 1)
                 calculatorViewModel.expressionViewModel.postValue(expression)
             }
@@ -209,14 +211,12 @@ class Calculator {
     }
 
     fun closeBracket() {
-        threadPools.execute {
-            if (openedBrackets > 0) {
-                expression += ")"
-                openedBrackets--
-                hint = hint.substring(0, hint.length - 1)
-                hintHelper.onHintTextChanged(hint)
-                calculatorViewModel.expressionViewModel.postValue(expression)
-            }
+        if (openedBrackets > 0) {
+            expression += ")"
+            openedBrackets--
+            hint = hint.substring(0, hint.length - 1)
+            hintHelper.onHintTextChanged(hint)
+            calculatorViewModel.expressionViewModel.postValue(expression)
         }
     }
 
@@ -252,7 +252,7 @@ class Calculator {
         fun onHintTextChanged(hint: String)
     }
 
-    interface ExpressionValidation {
+    fun interface ExpressionValidation {
         fun onExpressionInvalid()
     }
 }
